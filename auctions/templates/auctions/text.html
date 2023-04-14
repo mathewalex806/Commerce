@@ -1,0 +1,46 @@
+{%extends 'auctions/layout.html'%}
+{%load static%}
+{%block body%}
+<div style="padding-left: 15px;">
+{%if message%}
+
+<div class="alert alert-warning" role="alert">
+  {{message}}
+</div>
+{%endif%}
+<h4>Closed Listings.</h4>
+
+{%for i in listings%}
+
+
+<div style=" padding-top: 20px;">
+<div class="card mb-3" style="max-width: 650px;">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img src="{{i.imgurl}}" class="img-fluid rounded-start"  alt="No image">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title" style="color: #5cb85c;">{{i.listing_name}}</h5>
+          <p class="card-text"> Category : {{i.listing_category}}</p>
+          <p class="card-text"> Current bid : ${{i.bid}}</p>
+          <p class="card-text"><small class="text-muted">Created on : {{i.created_at}}</small></p>
+          <p class="card-text"><small class="text-muted">Closed by : {{i.owner}}</small></p>
+          <form action="{%url 'bid_winner'%}" method="POST">
+            {%csrf_token%}
+            <input type="hidden" name="title" value="{{i.listing_name}}">
+            <button type="submit" class="btn btn-warning">View Details</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{%endfor%}
+
+
+
+<button class="btn btn-success" ><a href="{%url 'index'%}" style="color: white;">Home</a></button>
+<p></p>
+</div>
+{%endblock%}

@@ -1,0 +1,71 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}Auctions{% endblock %}</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link href="{% static 'auctions/styles.css' %}" rel="stylesheet">
+        <style>
+            body {
+              margin: 0;
+              font-family: Arial, Helvetica, sans-serif;
+            }
+            
+            .topnav {
+              overflow: hidden;
+              background-color: #333;
+            }
+            
+            .topnav a {
+              float: left;
+              color: #f2f2f2;
+              text-align: center;
+              padding: 14px 16px;
+              text-decoration: none;
+              font-size: 17px;
+            }
+            
+            .topnav a:hover {
+              background-color: #ddd;
+              color: black;
+            }
+            
+            .topnav a.active {
+              background-color: #14A44D;
+              color: white;
+            }
+            </style>
+    </head>
+    <body>
+        <div class="topnav">
+            <a class="active" href="{% url 'index'%}"><Strong>Auctions</Strong> 
+            <img src="https://cdn-icons-png.flaticon.com/512/3514/3514491.png" alt="Logo" width="30" height="30"></a>
+
+            <a class="#news" href="{% url 'index' %}">Active Listings</a>
+            {% if user.is_authenticated %}
+            <a class="#news" href="{% url 'create'%}">Create New Listing</a>
+            <a class="#news" href="{% url 'watchlist'%}">Watchlist</a>
+            <a class="#news" href="{% url 'close_listing'%}">Closed Auctions</a>
+            <a class="#news" href="{% url 'logout' %}">Log Out</a>
+            
+            
+            {% else %}
+            <a class="#news" href="{% url 'login' %}">Log In</a>
+            <a class="#news" href="{% url 'register' %}">Register</a>
+            {% endif %}
+
+            {% if user.is_authenticated%}
+           <img  style="padding-left: 10px; padding-top: 55px;" src="https://cdn-icons-png.flaticon.com/512/9351/9351199.png" height="25px" width="25px"><strong style="color:#14A44D">{{user.username}}</strong>.
+            {% else %}
+             <img  style="padding-left: 10px; padding-top: 55px;" src="https://cdn-icons-png.flaticon.com/512/9351/9351199.png" height="25px" width="25px"><strong style="color:#14A44D">Not signed in.</strong>.
+            {% endif %}
+        </ul>
+    </div>  
+    <p></p>
+    
+        <p></p>
+        {% block body %}
+        {% endblock %}
+    </body>
+</html>

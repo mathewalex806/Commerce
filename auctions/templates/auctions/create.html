@@ -1,0 +1,61 @@
+{% extends 'auctions/layout.html'%}
+
+{% block content %}
+Create New Listing
+{% endblock %}
+
+{%block body%}
+
+<div style="padding-left: 15px;">
+    <h4><img src="https://cdn-icons-png.flaticon.com/512/211/211968.png" height="25px" width="25px">  Create New Listing </h4>
+
+<form action="{% url 'create'%}" method="post">
+    {%csrf_token%}
+
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Title </label>
+        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Title" name="title">
+    </div>
+
+    <div class="mb-3">
+        <label for="exampleFormControlTextarea1" class="form-label">Description</label>
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Enter a brief description of the product" name="desc"></textarea>
+    </div>
+
+
+    <p>  Select a Category</p>
+    <select name="listing_category" id="listing_category">
+    {%for i in  category%}
+    <option value="{{i.category_name}}">  {{i.category_name}}</option>
+    {%endfor%}
+    </select>
+    <p></p>
+
+
+    
+
+    <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">  Image Url </label>
+        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Link" name="link">
+    </div> 
+
+    <p></p>
+
+    <div class="mb-3">
+    <label for="exampleFormControlInput1" class="form-label">  Initial bid </label>
+    <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="($)" name="bid">
+    </div>
+
+  
+
+
+<button type="submit" class="btn btn-success" style="color:  black;">  Create</button>
+</form>
+</div>
+<p></p>
+
+
+
+
+
+{%endblock%}

@@ -1,0 +1,83 @@
+{% extends 'auctions/layout.html'%}
+{%block body%}
+<div style="padding-left: 15px;">
+  {% if message %}
+  <div class="alert alert-warning" role="alert">
+    {{message}}
+  </div>
+  {%endif%}
+    <div class="card mb-3" style="max-width: 1400px;">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img src="{{list_img}}" class="img-fluid rounded-start"  alt="No image">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title" style="color: #5cb85c;">{{list_title}}</h5>
+              <p class="card-text"> Category : {{list_cat}}</p>
+              <p class="card-text"> Price : ${{list_bid}}</p>
+              <p class="card-text">Description : {{list_desc}}</p>
+              <p class="card-text"><small class="text-muted">Listed by : {{list_owner}}</small></p>
+              <p class="card-text"><small class="text-muted">Created on : {{list_created}}</small></p>
+              {%if user.is_authenticated%}
+              
+              {% if user != list_owner%}
+              <form action="{% url 'addwatchlist'%}" method="post">
+                {% csrf_token%}
+                <input type="hidden" name="user_watch" value="{{user.username}}">
+                <input type="hidden" name="list_watch" value="{{list_title}}">
+              <button class="btn btn-warning" type="submit">Add to Watchlist</button>
+              </form>
+              <p></p>
+              <form action="{%url 'bid'%}" method="post">
+                {%csrf_token%}
+                Enter Your Bid  :<input type="number" name="bid" placeholder="$">
+                <input type="hidden" name="user" value="{{user.username}}">
+                <input type="hidden" name ="title" value="{{list_title}}">
+                <p></p>
+                <p class="card-text"><small class="text-muted">Current Bid : {{bid_query.bid_amount}}</small></p>
+                <button type="submit" class="btn btn-success">Enter</button>
+              </form>
+              {% elif list_owner == user%}
+              <form action="{% url 'close_listing'%}" method="POST">
+                {%csrf_token%}
+                <input type="hidden" name="title_close" value="{{list_title}}" >
+                <p class="card-text"><small class="text-muted">Current Bid : {{bid_query.bid_amount}}</small></p>
+                <button class="btn btn-danger" type="submit">Close Listing.</button>
+              </form>
+              {%endif%}
+            </div>
+          </div>
+        </div>
+    </div>
+    
+    <h4> <img src="https://cdn-icons-png.flaticon.com/512/1380/1380338.png" height="25px" width="25px"> Comments :</h4>
+    {%for i in comments_query%}
+    {% if i.comment_listing.listing_name == list_title%}
+    <p>{{i.comment_user}}  : {{i.comment}}</p>
+    {% endif %}
+    {%endfor%}
+    <hr>
+    <p></p>
+    <h5>Add A Comment</h5>
+    <form action="{%url 'add_comment'%}" method="post">
+      {%csrf_token%}
+      <textarea name="comment" id="" cols="100" rows="6" placeholder="Add your comment or question"></textarea>
+      <input type="hidden" value="{{user.username}}" name="username">
+      <input type="hidden" value="{{list_title}}" name="title">
+      <p></p>
+      <button type="submit" class="btn btn-success">Comment</button>
+    </form>
+   
+    <p></p>
+    <hr>
+    
+    {%else%}
+    <h4> <img src="https://cdn-icons-png.flaticon.com/512/1380/1380338.png" height="25px" width="25px"> Comments :</h4>
+    <div class="alert alert-warning" role="alert">
+      Log in to view, add and place bids and comments.
+    </div>
+
+    {%endif%}
+  </div>
+{%endblock%}

@@ -1,0 +1,57 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<div style="padding-left: 15px;">
+  <h4><img src="https://cdn-icons-png.flaticon.com/512/2099/2099125.png" height="25px" width="25px">  Active Listings</h4>
+<br>
+
+ <form action="{% url 'categories'%}" method="post">
+  {%csrf_token%}
+  <label for="category">Choose a category : </label>
+  <select name="category" id="category">
+    {%for  j in cat %}
+    <option value="{{j}}">{{j}}</option>
+    {% endfor %}
+  </select>
+  <button class="btn btn-success" type="submit" >Submit</button>
+</form>
+
+</div>
+
+{%for i in item%}
+
+
+<div style="padding-left: 30px; padding-top: 20px;">
+<div class="card mb-3" style="max-width: 650px;">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img src="{{i.imgurl}}" class="img-fluid rounded-start"  alt="No image">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title" style="color: #5cb85c;">{{i.listing_name}}</h5>
+          <p class="card-text"> Category : {{i.listing_category}}</p>
+          <p class="card-text"> Listing Praice : ${{i.bid}}</p>
+          <p class="card-text"><small class="text-muted">Listed by : {{i.owner}}</small></p>
+          <p class="card-text"><small class="text-muted">Created on : {{i.created_at}}</small></p>
+          <form action="{% url 'listing'%}" method="post">
+            {%csrf_token%}
+            <input type="hidden" value="{{i.listing_name}}" , name="title">
+            <button class="btn btn-success" type="submit">View Listing</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+{%endfor%}
+
+
+
+
+
+{% endblock %}

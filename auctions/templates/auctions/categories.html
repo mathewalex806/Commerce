@@ -1,0 +1,47 @@
+{%extends 'auctions/layout.html'%}
+{% load static%}
+{% block content%}
+Categories
+{% endblock%}
+{%block body%}
+
+
+<div style="padding-left: 15px; padding-top: 5px;">
+    <h4><img src="https://cdn-icons-png.flaticon.com/512/9244/9244279.png" alt="" height="25px" width="25px">Category : {{q.listing_category}}</h4>
+
+    
+
+    {% for i in list_item%}
+    
+    <div style="padding-left: 10px; padding-top: 30px;">
+        <div class="card mb-3" style="max-width: 650px;">
+            <div class="row g-0">
+              <div class="col-md-4">
+                <img src="{{i.imgurl}}" class="img-fluid rounded-start" >
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title" style="color: #04AA6D;">{{i.listing_name}}</h5>
+                  <p class="card-text"> Category : {{i.listing_category}}</p>
+                  <p class="card-text"> Price : ${{i.bid}}</p>
+                  <p class="card-text"><small class="text-muted">Listed by : {{i.owner}}</small></p>
+                  <p class="card-text"><small class="text-muted">Created on : {{i.created_at}}</small></p>
+                  <form action="{% url 'listing'%}" method="post">
+                    {%csrf_token%}
+                    <input type="hidden" value="{{i.listing_name}}" , name="title">
+                    <button class="btn btn-success" type="submit">View Listing</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    {% endfor %}
+
+    <button class="btn btn-success" ><a href="{%url 'index'%}" style="color: white;">Home</a></button>
+
+</div>
+<p></p>
+
+
+{% endblock%}
